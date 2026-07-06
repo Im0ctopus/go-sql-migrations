@@ -13,10 +13,12 @@ import (
 )
 
 var migrationTableQuery = `
-CREATE TABLE IF NOT EXISTS migrations (
-id SERIAL PRIMARY KEY,
-"scriptName" TEXT NOT NULL,
-timestamp BIGINT NOT NULL
+CREATE SCHEMA IF NOT EXISTS migrations;
+
+CREATE TABLE IF NOT EXISTS migrations.migrations (
+  id SERIAL PRIMARY KEY,
+  "scriptName" TEXT NOT NULL,
+  timestamp BIGINT NOT NULL
 );
 `
 
@@ -44,7 +46,7 @@ func main() {
 		fmt.Println(err)
 	}
 
-	query := `SELECT "scriptName" from migrations`
+	query := `SELECT "scriptName" from migrations.migrations`
 	rows, err := db.Query(ctx, query)
 	if err != nil {
 		log.Fatal(err)
@@ -61,7 +63,7 @@ func main() {
 		appliedMigrations = append(appliedMigrations, scriptName)
 	}
 
-	query = `INSERT INTO migrations ("timestamp", "scriptName")
+	query = `INSERT INTO migrations.migrations ("timestamp", "scriptName")
 	VALUES ($1, $2)
 	`
 	for _, migration := range migrations {
