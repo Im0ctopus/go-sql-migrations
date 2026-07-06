@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"github.com/jackc/pgx/v5"
-	"github.com/joho/godotenv"
 )
 
 var migrationTableQuery = `
@@ -24,11 +23,6 @@ CREATE TABLE IF NOT EXISTS migrations.migrations (
 
 func main() {
 	ctx := context.Background()
-
-	err := godotenv.Load("../../.env")
-	if err != nil {
-		log.Fatal(err)
-	}
 
 	migrations, err := os.ReadDir("../migrations/")
 	if err != nil {
