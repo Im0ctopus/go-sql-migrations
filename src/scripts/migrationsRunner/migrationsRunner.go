@@ -30,7 +30,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	godotenv.Load(".env")
+	godotenv.Load("../../.env")
 
 	db, err := pgx.Connect(ctx, os.Getenv("DATABASE_URL"))
 	if err != nil {
