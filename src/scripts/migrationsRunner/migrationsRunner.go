@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/jackc/pgx/v5"
+	"github.com/joho/godotenv"
 )
 
 var migrationTableQuery = `
@@ -28,6 +29,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	godotenv.Load(".env")
 
 	db, err := pgx.Connect(ctx, os.Getenv("DATABASE_URL"))
 	if err != nil {
